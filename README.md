@@ -1,10 +1,10 @@
-HCIproj — Project Structure Documentation
+# HCIproj — Project Structure Documentation
 
 This project is used to recognize emotion from speech and append corresponding emojis at the end of each sentence.
 
 Below is an overview of each folder and file in the project.
 
-📁 Project Structure
+```
 HCIproj/
 │
 ├── alibabacloud-nls-python-sdk-dev/
@@ -39,87 +39,46 @@ HCIproj/
 ├── scores.txt
 ├── split.py
 └── upload.py
+```
 
-📦 Folder & File Descriptions
-### 1. alibabacloud-nls-python-sdk-dev/
+## Folder & File Descriptions
 
-Python SDK for Aliyun NLS. Supports:
+### 1. `alibabacloud-nls-python-sdk-dev/`
+Python SDK for Aliyun NLS used for speech-to-text.
 
-SPEECH-RECOGNIZER
+- `transcription.py`: Requests AliAPI to run FileTrans for audio stored in OSS.
+- `...`: Other SDK files.
 
-SPEECH-SYNTHESIZER
+### 2. `audios/`
+Audio preprocessing utilities.
 
-SPEECH-TRANSLATOR
+- `handling.py`: Converts audio sample rate to 16000Hz.
+- `output_audio.wav`: Converted audio output.
+- `sub-dir2/`: Additional audio files.
 
-COMMON-REQUESTS-PROTO
+### 3. `emotion2vec/`
+State-of-the-art speech emotion recognition model.
 
-Used in this project to convert speech to text.
+- `scripts/test.py`: Runs model on split audio and outputs scores.
+- `2312.15185.pdf`: Emo2vec paper.
+- `...`
 
-transcription.py
-Requests AliAPI to run FileTrans for an audio file stored in AliOSS.
+### 4. `splitted/`
+Sentence-level split audio segments.
 
-### 2. audios/
+### 5. `uploads/`
+Files produced by `app.py` to return to frontend.
 
-Audio processing utilities.
-
-handling.py
-Converts raw audio’s sample rate to 16000 Hz, required by the model.
-
-output_audio.wav
-Audio file converted to the required sample rate.
-
-sub-dir2/
-(Additional audio file storage.)
-
-### 3. emotion2vec/
-
-A state-of-the-art speech emotion recognition foundation model.
-
-scripts/test.py
-Runs Emo2vec on each split audio file and stores their score outputs.
-
-2312.15185.pdf
-The Emo2vec research paper.
-
-### 4. splitted/
-
-Audio clips generated after splitting the input audio by sentence.
-
-### 5. uploads/
-
-Files produced by app.py for returning to the frontend.
-
-### 6. Core Python Scripts
-
-app.py
-Main backend program.
-Allows users to upload audio, processes it, and returns results.
-
-command.cmd
-One-click command file to run the entire workflow.
-
-emoji.py
-Compares emotion scores with the grading criteria (Excel) and outputs suitable emojis.
-
-split.py
-Splits audio into sentence-based segments.
-
-upload.py
-Uploads processed audio to AliOSS.
+### 6. Core Scripts
+- `app.py`: Main backend to handle uploads and processing.
+- `command.cmd`: One-click execution.
+- `emoji.py`: Maps emotion scores to emojis.
+- `split.py`: Splits audio by sentence.
+- `upload.py`: Uploads processed audio to OSS.
 
 ### 7. Output & Data Files
-
-emotion_grading.xlsx
-Emotion grading table for mapping scores → emoji strength.
-
-final.txt
-Final output after all processing.
-
-output.txt
-Text result from speech-to-text stage.
-
-raw.m4a
-Original user-uploaded audio file.
-
-scores.txt
-Emo2vec scores for each split audio segment.
+- `emotion_grading.xlsx`: Scoring table.
+- `final.txt`: Final output.
+- `output.txt`: Speech-to-text results.
+- `raw.m4a`: Original input file.
+- `scores.txt`: Emotion scores per split audio.
